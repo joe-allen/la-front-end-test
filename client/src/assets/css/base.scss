@@ -13,37 +13,37 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font: inherit;
-	vertical-align: baseline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
 }
 *,
 ::after,
 ::before {
   -webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	box-sizing: border-box;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
 *::selection {
-	background: #CCE2FD;
+  background: #CCE2FD;
 }
 *:focus {
-	outline: none;
+  outline: none;
   border: inherit;
 }
 i:focus {
     outline: none;
 }
 html {
-	font-family: $font;
-	font-size: 62.5%;
-	font-weight: $normal;
+  font-family: $font;
+  font-size: 62.5%;
+  font-weight: $normal;
 }
 body {
-	background: $background;
-	color: $text;
-	font-size: 1.4rem;
-	line-height: 2rem;
+  background: $background;
+  color: $text;
+  font-size: 1.4rem;
+  line-height: 2rem;
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-		<Card />
+    <Card />
   </div>
 </template>
 
@@ -10,7 +10,7 @@ import Card from '@/components/Card.vue'
 export default {
   name: 'home',
   components: {
-		Card
+    Card
   }
 }
 </script>

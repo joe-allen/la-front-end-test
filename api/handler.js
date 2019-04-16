@@ -10,39 +10,39 @@ const API_ID = "6970";
 
 module.exports.programs = async (event, context) => {
 
-	console.log("event: ", event);
+  console.log("event: ", event);
 
-	let url = `${API_BASE}/${API_ID}/programs/current${API_KEY}`;
-	let results = await axios.get(url).then(response => response.data);
+  let url = `${API_BASE}/${API_ID}/programs/current${API_KEY}`;
+  let results = await axios.get(url).then(response => response.data);
 
-	return {
-			statusCode: 200,
-			headers: {
-					'Access-Control-Allow-Origin': '*',
-					'Access-Control-Allow-Credentials': true,
-			},
-			body: JSON.stringify({
-					message: 'Yay for serverless',
-					data: results,
-			}),
-	};
+  return {
+      statusCode: 200,
+      headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true,
+      },
+      body: JSON.stringify({
+          message: 'Yay for serverless',
+          data: results,
+      }),
+  };
 };
 
 module.exports.programById = async (event) => {
 
-	// let id = '61458';
-	let id = event.pathParameters.id;
-	let url = `${API_BASE}/${API_ID}/programs/${id}${API_KEY}`;
-	let results = await axios.get(url).then(response => response.data);
+  // let id = '61458';
+  let id = event.pathParameters.id;
+  let url = `${API_BASE}/${API_ID}/programs/${id}${API_KEY}`;
+  let results = await axios.get(url).then(response => response.data);
 
-	return {
-			statusCode: 200,
-			headers: {
-					'Access-Control-Allow-Origin': '*',
-					'Access-Control-Allow-Credentials': true,
-			},
-			body: JSON.stringify({
-					data: results,
-			}),
-	};
+  return {
+      statusCode: 200,
+      headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true,
+      },
+      body: JSON.stringify({
+          data: results,
+      }),
+  };
 };

@@ -9,14 +9,32 @@
             <span class="card_front--program_data-close" @click="programDataClose">
               <i class="fas fa-times"></i>
             </span>
-            <h1>{{program.name}}</h1>
-            <h2>{{program.id}}</h2>
-            <p>{{program.captainLabel}}</p>
-            <p>{{program.experienceLevel}}</p>
-            <p>{{program.hasWaitlist}}</p>
-            <p>{{program.programUrlHtml}}</p>
-            <p>{{program.season}}</p>
-            <p>{{program.sport}}</p>
+            <h1>Program: {{ program.name }}</h1>
+            <h2>Level: {{ program.experienceLevel }}
+              <span v-if="program.experienceLevel == null">
+                N/A
+              </span>
+            </h2>
+            <p>Gender: {{ program.gender }} <span v-if="program.gender == 'CO_ED'"><i class="fas fa-universal-access"></i></span></p>
+            <p>Type of Sport: {{ program.sport }}
+              <span v-if="program.sport == null">
+                N/A
+              </span>
+            </p>
+            <p>Program website: <a :href="program.programUrlHtml" target="_blank" rel="noopener nofollow">{{ program.name }}</a></p>
+            <p>WaitList: {{ (program.hasWaitlist) ? "Yes" : "No" }}
+              <span v-if="program.hasWaitlist == null">
+                N/A
+              </span>
+            </p>
+            <p>Season: {{ program.season }}
+              <span v-if="program.season == 'Summer'">
+                <i class="fas fa-sun"></i>
+              </span>
+              <span v-else-if="program.season == null">
+                N/A
+              </span>
+            </p>
           </div>
           <div class="card_front--container shadow">
             <div class="card_front--header">
@@ -36,7 +54,7 @@
             <div class="card_front--article">
               <div class="card_front--article-table">
                 <div class="card_front--article-table_thead">
-                  <div class="card_front--article-table_td"><strong>Program</strong></div>
+                  <div @click="sortPrograms" class="card_front--article-table_td"><strong>Program <i class="fas fa-arrows-alt-v"></i></strong></div>
                   <div class="card_front--article-table_td"><strong>Level</strong></div>
                   <div class="card_front--article-table_td"><strong>Join</strong></div>
                 </div>
@@ -87,9 +105,11 @@
         searchShow: false,
         searchStr: null,
         showProgramDetail: false,
+        sortProgramsASC: false,
         ui: {
           colors: {
-            greyMedium: "#99A4AC"
+            greyLight: "#d4d4d4",
+            blue: "#0099CC"
           }
         }
       }
@@ -150,9 +170,23 @@
         // hide search input
         this.searchShow = !this.searchShow;
       },
-      getProgramById(id, $event) {
+      sortPrograms () {
+        let sortedPrograms = [];
 
-        console.log("event: ", $event.target.parentElement);
+        this.sortProgramsASC = !this.sortProgramsASC;
+
+        sortedPrograms = this.programs.sort((first, second) => {
+          let nameFirst = first.name.toLowerCase();
+          let nameSecond = second.name.toLowerCase();
+
+          if(this.sortProgramsASC) {
+            return (nameFirst < nameSecond) ? -1 : 1;
+          } else {
+            return (nameSecond < nameFirst) ? -1 : 1;
+          }
+        });
+      },
+      getProgramById(id, $event) {
 
         getProgramById(id).then(results => {
           let programDetails = document.getElementsByClassName('card_front--program_data')[0];
@@ -163,6 +197,7 @@
           // ui updates
           this.loading = false;
           this.showProgramDetail = true;
+          $event.target.parentElement.style.borderBottom = `2px dashed ${this.ui.colors.blue}`; // todo: border when sort is used
 
           for(let i = 0; i < boundingContainer.length; i++) {
             if(boundingContainer[i].dataset.apiResults == "true") {
@@ -190,13 +225,10 @@
             this.program.programUrlHtml = results.programUrlHtml
             this.program.season = results.season
             this.program.sport = results.sport
-
-            console.log("Found", this.program);
           }
         });
       },
       programDataClose () {
-        console.log("closeing");
         // hide program details
         this.showProgramDetail = false;
       }
@@ -243,8 +275,8 @@
       width: 100%;
       position: relative;
       overflow: hidden;
-      // background: url("https://i5.walmartimages.com/asr/409830cd-0426-4d0d-bb2a-511880a2f7c1_1.ed04f89e7dbca6d87234a3c65dc7007a.jpeg?odnHeight=450&odnWidth=450&odnBg=FFFFFF") no-repeat;
-      background: url("../assets/img/bocce-ball.jpg") no-repeat;
+      background: url("https://i5.walmartimages.com/asr/409830cd-0426-4d0d-bb2a-511880a2f7c1_1.ed04f89e7dbca6d87234a3c65dc7007a.jpeg?odnHeight=450&odnWidth=450&odnBg=FFFFFF") no-repeat;
+      // background: url("../assets/img/bocce-ball.jpg") no-repeat; odd issue in safari not displaying this image
       background-position: center;
       background-size: cover;
       object-fit: cover;
@@ -307,6 +339,12 @@
     max-width: 75px;
     white-space: nowrap;
   }
+  .card_front--article-table_thead > .card_front--article-table_td:nth-of-type(1) {
+    cursor: pointer
+  }
+  .card_front--article-table_thead > .card_front--article-table_td:nth-of-type(2) {
+    text-align: center;
+  }
   .card_front--article-table_td:nth-of-type(2) {
     text-align: right;
   }
@@ -314,9 +352,8 @@
     cursor: pointer;
     transition: $transition;
     text-align: right;
-    color: $link;
   }
-  .card_front--article-table_td:nth-of-type(3):hover {
+  :not(.card_front--article-table_thead) > .card_front--article-table_td:nth-of-type(3):hover {
     text-decoration: underline;
     color: $linkHover;
   }
@@ -340,8 +377,12 @@
     background-color: #fff;
     hyphens: auto;
     position: relative;
+    line-height: 2rem;
     z-index: 2;
 
+    h2 {
+      margin-bottom: 1rem;
+    }
     .card_front--program_data-close {
       position: absolute;
       right: 0;

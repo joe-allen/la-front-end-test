@@ -4,7 +4,8 @@
 	HTML Elements
 *************/
 html, body {
-	height: 100%;
+  height: 100%;
+  padding: 0 15px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -17,6 +18,15 @@ h2 {
 }
 h3 {
 	font-size: $h3;
+}
+a {
+  color: $grey;
+  transition: $transition;
+  text-decoration: none;
+}
+a:hover {
+  color: $linkHover;
+  text-decoration: underline;
 }
 
 /*****************

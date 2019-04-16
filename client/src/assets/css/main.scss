@@ -1,0 +1,30 @@
+@import './base.scss';
+
+/*************
+	HTML Elements
+*************/
+html, body {
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+h1 {
+	font-size: $h1;
+}
+h2 {
+	font-size: $h2;
+}
+h3 {
+	font-size: $h3;
+}
+
+/*****************
+	UI Styling
+*****************/
+.loading--container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: $py-3;
+}

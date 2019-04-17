@@ -8,4 +8,4 @@
 ---
 
 ## Project Notes:
-  - When developing locally I had an issue with CORS `access-control-allow-origin` so I created a couple Lambda functions to call the Public API.
+  - When developing locally I had an issue with CORS `access-control-allow-origin` so I created a couple [Lambda functions](https://github.com/joe-allen/league-apps-front-end-test/blob/master/api/handler.js) to call the Public API.
